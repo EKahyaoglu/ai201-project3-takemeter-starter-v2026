@@ -55,9 +55,13 @@ whether you hit them:
 
 <!-- Your criterion. It must name a number. -->
 
+On the held-out test set, overall accuracy is at least **0.68** across all
+three random seeds.
 
-
-**Why this target:**
+**Why this target:** With three labels, chance performance is about 0.33. A
+0.68 accuracy target requires the classifier to identify the post's function
+well enough to be useful for triage, while allowing for the overlap between
+heated analysis and unsupported hot takes.
 
 
 
@@ -67,9 +71,13 @@ whether you hit them:
 
 <!-- Your criterion. -->
 
+Every label has an F1 score of at least **0.55** on the held-out test set in
+each seed, and the macro-F1 is at least **0.60**.
 
-
-**Why this target:**
+**Why this target:** The three labels are not equally easy: short reactions
+are easy to spot, while `analysis` and `hot_take` share confident language.
+The 0.55 per-label floor prevents the model from hiding a weak label inside a
+good overall score, and the 0.60 macro-F1 keeps performance balanced.
 
 
 
@@ -79,9 +87,13 @@ whether you hit them:
 
 <!-- Your criterion. -->
 
+After collecting 200 posts, each label represents at least **15%** and at
+most **50%** of the dataset.
 
-
-**Why this target:**
+**Why this target:** The corpus should include enough examples of reactions,
+unsupported judgments, and evidence-backed discussion for every label to be
+learnable. A 15% minimum gives the smallest label roughly 30 examples, while
+the 50% maximum stops the majority class from becoming a default answer.
 
 
 
@@ -91,9 +103,13 @@ whether you hit them:
 
 <!-- Your criterion. -->
 
+On a blind double-label sample of **30** posts, a second human labeler and I
+agree on at least **80%** of labels, with Cohen's kappa of at least **0.60**.
 
-
-**Why this target:**
+**Why this target:** The hardest distinction is whether a specific detail is
+actual support or merely a confident assertion. Requiring both 80% raw
+agreement and a 0.60 chance-adjusted agreement checks that the decision rule
+is usable by another reader, not just by me.
 
 
 
@@ -103,9 +119,14 @@ whether you hit them:
 
 <!-- Your criterion. -->
 
+Among predictions whose highest class probability is at least **0.80**, at
+least **85%** are correct on the held-out test set.
 
-
-**Why this target:**
+**Why this target:** A high-confidence prediction should be safer to use for
+initial sorting than an uncertain one. The 0.80 confidence cutoff leaves the
+model free to abstain on ambiguous `analysis` versus `hot_take` cases, while
+85% precision makes the confident queue meaningfully more reliable than the
+overall target.
 
 
 

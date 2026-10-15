@@ -42,6 +42,26 @@
 <!-- Your community, and what your classifier sorts posts into. Three or four
      sentences. -->
 
+I am collecting public text posts from Reddit's r/SteelBallRun community. I
+read recent posts through the community's public RSS feed and sampled roughly
+35 posts before choosing labels; the community has discussion, questions,
+fan-art and adaptation reactions, so it has real variation in post type. The
+classifier sorts posts by what the text is doing: evidence-backed
+interpretation, unsupported confident judgment, or immediate emotional
+response. I will collect at least 200 public posts from the same community.
+
+### Candidate distinctions observed while reading
+
+- Some posts cite a specific chapter, scene, timing, quote, or comparison;
+     others make a judgment without giving a checkable reason.
+- Some posts mainly express an immediate feeling about a newly released
+     episode, image, song, or chapter rather than making an argument.
+- Some posts ask for information or invite opinions, while others assert a
+     conclusion; a question is labelled by the substance of its text only when
+     it also contains one of the three target behaviors.
+- Posts vary sharply in length: a paragraph that explains a connection is
+     different from a one-line reaction, even when both use strong emotion.
+
 
 
 ---
@@ -56,31 +76,67 @@
 
 ### `label_one`
 
-**Definition:**
+**Definition:** `analysis` makes an interpretation or argument and supports it
+with a specific, checkable detail from the manga, anime, or adaptation.
 
 **Example 1:**
->
+> "Holy shit The Chain works perfectly for the ending, the drum beats are the
+> same timing as the light flashing at the beginning, and the end credits go
+> until the end of the first verse (90 seconds)."
 
 **Example 2:**
->
+> "Someone asks a normal question or makes a casual post then gets called a
+> larper or edit watcher ... Knowing the exact stage of A Man's World does not
+> make you superior ... Some people just like the story."
 
 ### `label_two`
 
-**Definition:**
+**Definition:** `hot_take` makes a confident evaluation or prediction without
+offering a specific detail that would let a reader check the reasoning.
 
 **Example 1:**
->
+> "Oyecomova with red, white and blue facepaint. Alt Title: Oyecomova if David
+> Pro weren't Shueisha glazers."
 
 **Example 2:**
->
+> "Who Shot Johnny? must be changed for the anime."
+
+### `label_three`
+
+**Definition:** `reaction` is primarily an immediate feeling or short response
+to something just seen, read, or heard, without an argument to establish.
+
+**Example 1:**
+> "This manga got me crying bruh im at the later end of it like chapter 87"
+
+**Example 2:**
+> "Bro's fr even hittin the same pose."
 
 ### The hardest boundary
 
-**Which two labels:**
+**Which two labels:** `analysis` and `hot_take`
 
-**The decision rule I used every time:**
-<!-- e.g. "If the post names a specific checkable fact, it's `analysis`, even
-     if the tone is heated." -->
+**The decision rule I used every time:** If the post names a specific scene,
+chapter, quote, timing, adaptation choice, or comparison and uses it as
+support for its conclusion, it is `analysis`, even if the tone is heated. If
+the conclusion has no such checkable support, it is `hot_take`. A question is
+not automatically a `reaction`; classify its text by this same evidence rule.
+
+### Boundary stress test
+
+These are eight deliberately borderline examples generated for the taxonomy
+check. The rule above gives each one a single label.
+
+| Example | Label | Why |
+|---|---|---|
+| "The ending is perfect." | `hot_take` | Strong judgment, no support. |
+| "The ending is perfect because the final shot repeats the opening panel." | `analysis` | Specific checkable comparison. |
+| "I cannot believe that ending happened." | `reaction` | Immediate feeling, no argument. |
+| "Why is everyone saying the ending is perfect?" | `hot_take` | A judgment is asserted without evidence; the question form does not change that. |
+| "The ending song works: its first verse lasts about 90 seconds, matching the credits." | `analysis` | Timing is offered as support. |
+| "That episode made me cry." | `reaction` | Emotional response to something just watched. |
+| "The new colors are awful; the manga palette made Gyro's green eyes readable." | `analysis` | Specific adaptation detail supports the evaluation. |
+| "The anime ruined the colors." | `hot_take` | Confident evaluation without a supporting detail. |
 
 
 
@@ -93,16 +149,25 @@
 
 **Where the posts came from:**
 
-**How I labelled them:** <!-- Cold first? Pre-labelled with AI and corrected?
-Say so plainly — the disclosure is required, not penalised. -->
+I collected 200 whole public submissions from Reddit's r/SteelBallRun using a
+public historical Reddit archive. I deduplicated by normalized post text and
+kept the title and body together in `labels.csv`.
+
+**How I labelled them:** I applied the written taxonomy to the full text in a
+deterministic pre-labeling pass. The first 20 rows are reserved as the cold
+sample and are marked `cold - provisional label; manually verify unaided`; they
+still need my unaided check before the agreement comparison. The remaining rows
+are marked as pre-labelled from the public archive. This is disclosed because
+the rows still need a human review and correction pass before the dataset is
+treated as final.
 
 **Counts per label:**
 
 | Label | Count | Share |
 |---|---|---|
-|  |  |  |
-|  |  |  |
-|  |  |  |
+| `analysis` | 64 | 32.0% |
+| `hot_take` | 71 | 35.5% |
+| `reaction` | 65 | 32.5% |
 | **Total** |  | 100% |
 
 **Three hard cases**
@@ -111,25 +176,31 @@ Say so plainly — the disclosure is required, not penalised. -->
      been, and what you chose. These are worth more than the easy 190. -->
 
 **1.**
-> *The post:*
+> *The post:* "Since they're showing the Oyecomova fight before Gyro's
+> backstory, the dialogue during the fight won't make any sense."
 >
-> *Could have been:*
+> *Could have been:* `analysis` or `hot_take`
 >
-> *I chose, because:*
+> *I chose, because:* It makes a confident prediction but gives no specific
+> checkable scene detail to support it, so I chose `hot_take`.
 
 **2.**
-> *The post:*
+> *The post:* "Holy shit The Chain works perfectly for the ending, the drum
+> beats are the same timing as the light flashing at the beginning, and the end
+> credits go until the end of the first verse (90 seconds)."
 >
-> *Could have been:*
+> *Could have been:* `analysis` or `reaction`
 >
-> *I chose, because:*
+> *I chose, because:* Although the tone is excited, it gives a specific timing
+> and visual comparison, so I chose `analysis`.
 
 **3.**
-> *The post:*
+> *The post:* "Cannot wait to see this scene animated"
 >
-> *Could have been:*
+> *Could have been:* `reaction` or `hot_take`
 >
-> *I chose, because:*
+> *I chose, because:* It is an immediate feeling about a future adaptation
+> with no argument, so I chose `reaction`.
 
 ---
 
@@ -137,15 +208,17 @@ Say so plainly — the disclosure is required, not penalised. -->
 
 <!-- Your starting model, your settings, and anything you changed and why. -->
 
-**Base model:**
+**Base model:** `distilbert-base-uncased`
 
-**Settings:** <!-- epochs, learning rate, batch size, seed -->
+**Settings:** 3 epochs, learning rate `2e-5`, batch size `16`, maximum length
+`128`, seed `42`
 
-**Anything I changed from the defaults, and why:**
+**Anything I changed from the defaults, and why:** Nothing. I ran the default
+settings on the project's `.venv` kernel using Apple Silicon MPS (`torch 2.14.1`).
 
-**Split sizes:** <!-- train / val / test, and per-label counts in the test
-split. If a label had fewer than about 8 in test, say so — it explains a lot
-of next unit's variance. -->
+**Split sizes:** train `139` / validation `31` / test `30`. Test counts were
+`analysis 9`, `hot_take 11`, and `reaction 10`; no label had fewer than about 8
+test examples.
 
 
 
@@ -162,17 +235,26 @@ of next unit's variance. -->
 
 **Moment 1**
 
-- *What I asked for:*
-- *What came back:*
-- *What I changed:*
+- *What I asked for:* Help me turn the observed r/SteelBallRun distinctions
+     into boundaries that another person could apply.
+- *What came back:* The evidence-versus-unsupported-judgment rule and the
+     `analysis`, `hot_take`, and `reaction` definitions.
+- *What I changed:* I recorded the checkable-detail rule and added boundary
+     stress tests to the taxonomy.
 
 **Moment 2**
 
-- *What I asked for:*
-- *What came back:*
-- *What I changed:*
+- *What I asked for:* Help collect and structure public posts for the dataset.
+- *What came back:* A deduplicated CSV with whole post text and provisional
+     labels using the written taxonomy.
+- *What I changed:* I checked the schema, counts, duplicates, label balance,
+     and provenance notes; the 20 cold rows remain explicitly provisional for my
+     manual verification.
 
-**Pre-labelling disclosure:**
+**Pre-labelling disclosure:** The 200 rows were provisionally labelled by a
+local deterministic rule informed by the written definitions. I have not yet
+manually corrected every row, so the cold sample and the rest of the corpus
+need that human review before a final training run.
 
 <!-- ═══════════════════════ UNIT 6 — THE TEST ═══════════════════════
 

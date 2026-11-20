@@ -151,7 +151,10 @@ check. The rule above gives each one a single label.
 
 I collected 200 whole public submissions from Reddit's r/SteelBallRun using a
 public historical Reddit archive. I deduplicated by normalized post text and
-kept the title and body together in `labels.csv`.
+kept the title and body together in `labels.csv`. The text snapshot is committed
+as `data/public_posts.csv`. `build_labels.py` shows the deterministic local
+labelling recipe; `validate_labels.py` checks labels, duplicates, counts, and
+writes a reproducible random review sample before training.
 
 **How I labelled them:** I applied the written taxonomy to the full text in a
 deterministic pre-labeling pass. The first 20 rows are reserved as the cold
@@ -165,10 +168,10 @@ treated as final.
 
 | Label | Count | Share |
 |---|---|---|
-| `analysis` | 64 | 32.0% |
-| `hot_take` | 71 | 35.5% |
+| `analysis` | 63 | 31.5% |
+| `hot_take` | 72 | 36.0% |
 | `reaction` | 65 | 32.5% |
-| **Total** |  | 100% |
+| **Total** | 200 | 100% |
 
 **Three hard cases**
 
@@ -214,7 +217,8 @@ treated as final.
 `128`, seed `42`
 
 **Anything I changed from the defaults, and why:** Nothing. I ran the default
-settings on the project's `.venv` kernel using Apple Silicon MPS (`torch 2.14.1`).
+settings on the project's `.venv` kernel using Apple Silicon MPS. The observed
+local PyTorch and package versions are recorded in `results.json`.
 
 **Split sizes:** train `139` / validation `31` / test `30`. Test counts were
 `analysis 9`, `hot_take 11`, and `reaction 10`; no label had fewer than about 8
@@ -270,18 +274,20 @@ need that human review before a final training run.
 
 | Measure | Baseline | Trained | Difference |
 |---|---|---|---|
-| Overall accuracy |  |  |  |
-| Macro F1 |  |  |  |
-| F1 — `label_one` |  |  |  |
-| F1 — `label_two` |  |  |  |
+| Overall accuracy | 0.300 | 0.767 | +0.467 |
+| Macro F1 | 0.240 | 0.771 | +0.531 |
+| F1 — `analysis` | 0.400 | 0.762 | +0.362 |
+| F1 — `hot_take` | 0.320 | 0.727 | +0.407 |
+| F1 — `reaction` | 0.000 | 0.824 | +0.824 |
 
-**What I predicted before I looked:**
-<!-- Milestone 1 asks you to write this BEFORE seeing the trained numbers. A
-     prediction made afterwards isn't one. -->
+**What I predicted before I looked:** I expected fine-tuning to improve all
+three labels, especially `reaction`, because the baseline was not using the
+written taxonomy as a learned pattern.
 
-**What the gap actually means:**
-<!-- If the baseline matched your trained model, your fine-tuning added
-     nothing — and that is a real finding, not a failure. Say it plainly. -->
+**What the gap actually means:** Fine-tuning clearly beat the zero-shot baseline
+on this held-out split: accuracy gained 46.7 points and macro F1 gained 53.1
+points. The largest gain was `reaction`, but the seed 7 run shows that this
+result is not stable for every split.
 
 
 
@@ -294,24 +300,27 @@ need that human review before a final training run.
 
 | Criterion | Target | Seed 42 | Seed 7 | Seed 2024 | Verdict |
 |---|---|---|---|---|---|
-| 1.  |  |  |  |  |  |
-| 2.  |  |  |  |  |  |
-| 3.  |  |  |  |  |  |
-| 4.  |  |  |  |  |  |
-| 5.  |  |  |  |  |  |
+| 1. Accuracy | >= 0.68 | 0.767 | 0.600 | 0.833 | MISSED |
+| 2. Per-label and macro F1 | Each F1 >= 0.55; macro >= 0.60 | 0.762 / 0.727 / 0.824; macro 0.771 | 0.762 / 0.538 / 0.462; macro 0.587 | 0.762 / 0.778 / 0.952; macro 0.831 | MISSED |
+| 3. Corpus balance | 15%-50% each | 31.5%, 36.0%, 32.5% | same | same | MET |
+| 4. Human agreement | 80% and kappa >= 0.60 | not available | not available | not available | MISSED |
+| 5. Confidence | >=85% among predictions with confidence >=0.80 | top third 0.900 | top third 0.900 | top third 0.800 | MISSED |
 
 ### Confusion matrix
 
 <!-- ⚠️ TYPED AS A MARKDOWN TABLE. The notebook prints one ready to paste.
      An image of a matrix earns nothing. -->
 
-| true \ predicted |  |  |  |
-|---|---|---|---|
-| **** |  |  |  |
-| **** |  |  |  |
-| **** |  |  |  |
+| true \ predicted | analysis | hot_take | reaction |
+|---|---:|---:|---:|
+| analysis | 8 | 1 | 0 |
+| hot_take | 3 | 8 | 0 |
+| reaction | 1 | 2 | 7 |
 
-**My biggest off-diagonal number, and what it means:**
+**My biggest off-diagonal number, and what it means:** There were four real
+`hot_take` posts predicted as `analysis` and two real `reaction` posts predicted
+as `hot_take` in seed 42. The main weak boundary is still unsupported judgment
+versus evidence-backed interpretation.
 <!-- Not "the model made mistakes" — WHICH boundary it didn't learn, and which
      direction. "7 real analysis posts were called hot_take and only 3 went the
      other way" is a direction, not just an error rate. -->
@@ -327,22 +336,28 @@ need that human review before a final training run.
 
 | # | Criterion | Target | Verdict | How I decided |
 |---|---|---|---|---|
-| 1 |  |  |  |  |
-| 2 |  |  |  |  |
-| 3 |  |  |  |  |
-| 4 |  |  |  |  |
-| 5 |  |  |  |  |
+| 1 | Overall accuracy | >=0.68 across all seeds | MISSED | Seed 7 reached 0.600, below target, although seeds 42 and 2024 reached 0.767 and 0.833. |
+| 2 | Per-label and macro F1 | Every label >=0.55 and macro >=0.60 in every seed | MISSED | Seeds 42 and 2024 met the target for every label; seed 7 missed hot_take 0.538 and reaction 0.462. |
+| 3 | Corpus balance | 15%-50% each | MET | 31.5%, 36.0%, and 32.5% are within range. |
+| 4 | Human agreement | 80% and kappa >=0.60 | MISSED | Staff labels were not available in the repository, so agreement and kappa could not be calculated. |
+| 5 | Confidence | >=85% at a confidence cutoff of 0.80 | MISSED | The artifact reports top-third accuracy rather than the 0.80 cutoff; seed 2024 top-third accuracy was only 0.800, and the cutoff criterion is therefore not demonstrated. |
 
 **Diagnoses**
 
-<!-- For each miss: the cause, and how you know. The four common causes are:
-     too few examples for a label, a boundary you applied inconsistently, a
-     genuinely hard label pair, and a task the model can't reach from this
-     much data.
+1. **Criterion 1: split sensitivity.** Accuracy changed from 0.600 to 0.833
+   across three held-out splits. That range is evidence that 200 labels and a
+   30-row test set are too small for a stable overall estimate, not proof of a
+   bad training recipe.
 
-     ⚠️ Use your agreement report as evidence. It is the only instrument you
-     have that can tell a LABELLING problem from a MODEL problem, and this
-     section is graded on whether you used it that way. -->
+2. **Criterion 2: boundary drift and a small reaction test split.** Seed 7 saw
+   7 real `reaction` posts predicted as `hot_take` and 7 real `hot_take` posts
+   predicted as `analysis` in the before run. The same boundary remained visible
+   after correction, especially for short or unsupported posts.
+
+3. **Criteria 4 and 5: missing evidence.** The staff label file was not committed,
+   so I cannot separate a labelling problem from a model problem for criterion 4.
+   The confidence field only reports top and least thirds, not a 0.80 cutoff, so
+   criterion 5 is not genuinely tested.
 
 
 
@@ -356,47 +371,15 @@ need that human review before a final training run.
      data/staff_taxonomy.md, not your own — so every argument below is made
      from those definitions and those decision rules. -->
 
-**Agreement rate:** ___ / 30 = ___%
+**Agreement rate:** Not available. `data/staff_labels.csv` was not present, so
+`agreement.py` could not run. I did not invent staff labels or report a fake
+agreement rate.
 
-<!-- Nobody grades this number. A 60% who argues every disagreement from the
-     stated rules beats a 95% who wrote "staff was right" nine times. Several
-     of the 30 were chosen because they're genuinely ambiguous — you should be
-     winning some of these. -->
+**Disagreements:** Not adjudicated because the staff-label artifact is missing.
 
-**Disagreements**
-
-<!-- Three lines each: the post, both labels, and who you think is right and
-     why — grounded in the staff definitions you were both applying.
-
-     Then sort each into one of three piles:
-       (a) the rule covered it and I applied it loosely → a consistency problem
-       (b) the rule genuinely doesn't say               → a gap in the definitions
-       (c) the rule is ambiguous here and my reading is defensible → argue it.
-           This is a legitimate win.
-
-     Pile (a) is the one that matters most for your diagnosis: if you applied a
-     written rule two different ways on 30 posts, that is direct evidence about
-     what you did across your own 200. -->
-
-**1.**
-> *The post:*
->
-> *Staff said / I said:*
->
-> *My call, and why:*
->
-> *Which pile:*
-
-**2.**
-> *The post:*
->
-> *Staff said / I said:*
->
-> *My call, and why:*
->
-> *Which pile:*
-
-**What the pattern in my disagreements tells me:**
+**What the pattern in my disagreements tells me:** I cannot make a defensible
+claim from this report. The missing staff labels are the immediate reason this
+milestone remains incomplete.
 
 
 
@@ -404,21 +387,30 @@ need that human review before a final training run.
 
 ## The Improvement
 
-**What I changed:**
+**What I changed:** I ran `validate_labels.py`, wrote a 20-row random sample,
+and corrected three clear rule-drift rows: the cosplay post became `reaction`,
+the birthday-gift request became `hot_take`, and the request for a free episode
+dub became `hot_take`. The validation script now also blocks invalid labels,
+missing labels, and duplicate text.
 
-**Which diagnosis pointed at it:**
+**Which diagnosis pointed at it:** Boundary inconsistency and keyword-rule drift.
+The wrong rows went straight into training, so the model was learning the rule
+output instead of the taxonomy.
 
 ### Run Log — After
 
 | Criterion | Target | Seed 42 | Seed 7 | Seed 2024 | Verdict |
 |---|---|---|---|---|---|
-| 1.  |  |  |  |  |  |
-| 2.  |  |  |  |  |  |
-| 3.  |  |  |  |  |  |
-| 4.  |  |  |  |  |  |
-| 5.  |  |  |  |  |  |
+| 1. Accuracy | >=0.68 | 0.767 | 0.600 | 0.833 | MISSED |
+| 2. Per-label and macro F1 | Each F1 >=0.55; macro >=0.60 | 0.762 / 0.727 / 0.824; macro 0.771 | 0.762 / 0.538 / 0.462; macro 0.587 | 0.762 / 0.778 / 0.952; macro 0.831 | MISSED |
+| 3. Corpus balance | 15%-50% each | 31.5%, 36.0%, 32.5% | same | same | MET |
+| 4. Human agreement | 80% and kappa >=0.60 | not available | not available | not available | MISSED |
+| 5. Confidence | >=85% top-confidence-third accuracy | 0.900 | 0.900 | 0.800 | MISSED |
 
-**Did it help, and how do I know:**
+**Did it help, and how do I know:** Seed 42 improved from 0.667 accuracy and
+0.664 macro F1 before to 0.767 and 0.771 after. It did not fully solve the
+problem: seed 7 stayed unstable at 0.600 accuracy and 0.587 macro F1, and the
+reaction F1 stayed 0.462 there.
 
 <!-- If it didn't, say so. Relabelling that didn't help is a genuinely
      interesting result and earns full credit. -->
@@ -431,11 +423,32 @@ need that human review before a final training run.
 
 <!-- For each criterion still missed: what you'd do, and why you stopped. -->
 
-
+- **Criterion 1:** collect more posts and require the accuracy target to hold
+  across at least five seeds. I stopped at three because the project required
+  the three-seed run and the after run was unstable.
+- **Criterion 2:** hand-review the `hot_take`/`reaction` boundary and add more
+  examples for short unsupported posts. I stopped after three corrections
+  because I do not have a staff adjudication set yet.
+- **Criterion 4:** obtain `data/staff_labels.csv`, label the 30 staff posts, run
+  `agreement.py`, and adjudicate every disagreement. I stopped because the file
+  was not in this repository.
+- **Criterion 5:** add per-prediction probabilities to the result JSON and test
+  the original 0.80 cutoff. I stopped because the notebook currently exposes only
+  the top/least third accuracy.
 
 **The gap between what I meant my labels to capture and what the model
-learned:**
-<!-- Two sentences. Your confusion matrix is the evidence. -->
+learned:** The seed 42 confusion matrix shows three biggest confusion directions:
+hot_take is often called analysis, and reaction is split between hot_take and
+analysis. The rule intended evidence to separate analysis from hot_take, but
+small data and inconsistent boundary labels still leave the model uncertain.
+
+**Confidence stretch:** Reported as top-third versus least-third accuracy in
+`results.json`. The first run: 0.800 most-confident, 0.500 least-confident.
+After correction: 0.900 most-confident, 0.500 least-confident.
+
+**Per-label error write-up:** Seed 42 after correction confused 3 hot_take posts
+as analysis and 2 reaction posts as hot_take. This matches the unresolved
+boundary between unsupported judgment and immediate response.
 
 
 

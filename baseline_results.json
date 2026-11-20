@@ -1,0 +1,184 @@
+{
+  "model": "facebook/bart-large-mnli",
+  "n": 30,
+  "seed": 42,
+  "held_out": true,
+  "used_definitions": true,
+  "scores": {
+    "n": 30,
+    "accuracy": 0.3,
+    "f1_macro": 0.24,
+    "per_label": {
+      "analysis": {
+        "precision": 0.3125,
+        "recall": 0.5555555555555556,
+        "f1": 0.39999999999999997,
+        "support": 9
+      },
+      "hot_take": {
+        "precision": 0.2857142857142857,
+        "recall": 0.36363636363636365,
+        "f1": 0.32,
+        "support": 11
+      },
+      "reaction": {
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "support": 10
+      }
+    }
+  },
+  "predictions": [
+    {
+      "text": "Voy por el cap 35 de SBR. Diganme algo que no entienda\n\n(Sin spoilers, obvio) tirenme una referencia que no entienda hasta que llegue a ese capitulo",
+      "gold": "hot_take",
+      "predicted": "hot_take"
+    },
+    {
+      "text": "Turtle of truth and affirmation\n\nPolnareff factos\ud83d\udd25",
+      "gold": "reaction",
+      "predicted": "hot_take"
+    },
+    {
+      "text": "Eren discovers a new torturing method\n\ngrisha had to kill everyone right after\ud83d\ude2d\u270c\ud83c\udffc",
+      "gold": "reaction",
+      "predicted": "analysis"
+    },
+    {
+      "text": "I had a dream illumination turned Steel Ball Run into a movie, and everyone hated Gyro's design online, idk how to recreate it\n\nSo I was scrolling on a weird YouTube like website in my dream, and then I saw a trailer for illumination's new movie Steel Ball Run. I watched it, and it was accurate-ish to the actual manga, but they added some other characters I barely remembered. I remember a scene where the two main characters, Johnny and Gyro were riding on two horses together, but it was animated in a style that was so painfully illumination. The scene that everyone was flaming online was Gyro's reveal, which the design looked spot on , but everyone said his nose was too long, and it looked stupid. I don't know why I dreamed something like SBR would be animated by Illumination. But even non-jojo fans were flaming the design like how people flamed ugly sonic, but they didn't change it?? And in the movie trailer Johnny was walking half of the time, and then in a wheelchair in the next scene. I then scrolled down to another video, which was kind of like how people memed the Minecraft movie trailer. I VIVIDLY remember this. It was a photo of Gyro's design saying: They laced the chicken wings. I can't bring myself to recreate this, so can anyone do it for me?",
+      "gold": "analysis",
+      "predicted": "hot_take"
+    },
+    {
+      "text": "I've just finished SBR, so I'm finally gonna ask - what was the whole point of the true man's world arc?\n\nFirst of all, a mandatory \"it was so peak\". Now to get to the point, I've read all of SBR, but due to a pretty bizarre translation situation I had to read it in Italian, which I'm not exactly fluent in (yet), but understood almost all of the manga, with just a few exceptions. One of them is the whole true man's world arc, which was written in such language that I didn't completely get everything. So I'll just ask, what exactly was the true man's world supposed to be? I don't think I've seen anything about it a single time past the defeat of Ringo. Was it all just a lesson for gyro about fair duels? I'm wondering because I don't know if I'm just a moron and didn't understand it, or it's just *bizarre*",
+      "gold": "analysis",
+      "predicted": "analysis"
+    },
+    {
+      "text": "Makeup help!!\n\nSpoiler just in case lol. For halloween I'm going as Diego but those images where he's got traits of scary monsters, claws, tail, crack and the row of teeth next to the band aid patch thingy by his lips. I don't do makeup and this is my first costume with it. What's some easy makeup tips and/or brands/brushes I could use? I mainly would use it for the cracks on his face, the row of teeth and the patch thing. Any help would be great! References below. https://preview.redd.it/g624kt2egbch1.png?width=641&format=png&auto=webp&s=f49cf53e2202ff3651fc0ef60c5251657c63073a https://preview.redd.it/n1oee2algbch1.png?width=710&format=png&auto=webp&s=d2a67a73544679d12c8b600d36a9014ff9508640",
+      "gold": "hot_take",
+      "predicted": "hot_take"
+    },
+    {
+      "text": "Holding Out For a Hero",
+      "gold": "reaction",
+      "predicted": "hot_take"
+    },
+    {
+      "text": "Infinite Rotation (SBR anime)\n\nBro did the infinite rotation in episode 3 bro **\ud83d\udc80** i dont remember this from the manga but its been a while since i read it. (before intro in episode 3)",
+      "gold": "hot_take",
+      "predicted": "analysis"
+    },
+    {
+      "text": "My review of the latest episode\n\nIt was good, nothing mind blowing or \"peak\" it was more enjoyable in the manga, I feel like the devil's palm has not my favourite color scheme, it just felt empty like it was missing something, and the faces of Johnny and Gyro changing inconsistently does help much lol, the stand battles were fun, but the devil's palm or the desert at night looks uncanny af, it's like loading into your minecraft superflat world at night, in the manga its dealt a lot better since we can't see further away view of the scene with makes it more better in my opinion in the manga, last episode was better from the anime, this episode is definitely a better experience for me in the manga",
+      "gold": "analysis",
+      "predicted": "hot_take"
+    },
+    {
+      "text": "I made a Main Villain Opening Interruption for Ringo Roadagain\n\nSteel Ball Run Opening (Holy Steel): https://youtu.be/YXexSXix3zs Ringo opening interruption: https://youtu.be/CcrDqrkO9eQ Mandom Sound Effects: https://youtu.be/1gb\\_tcdeSWo https://youtu.be/g1QUAbnscgI",
+      "gold": "hot_take",
+      "predicted": "analysis"
+    },
+    {
+      "text": "Hey Ya! Recolor, by me",
+      "gold": "reaction",
+      "predicted": "hot_take"
+    },
+    {
+      "text": "Do you think they will adapt the True Man's World arc in the Stage 2 & 3 cour?",
+      "gold": "analysis",
+      "predicted": "analysis"
+    },
+    {
+      "text": "Johnny Joestar but with game/asbr colors (by me)",
+      "gold": "reaction",
+      "predicted": "hot_take"
+    },
+    {
+      "text": "Whoever did the shading on these clearly didn't understand why it exists",
+      "gold": "reaction",
+      "predicted": "hot_take"
+    },
+    {
+      "text": "Before he appears in the anime, what voice actor is most suitable for Dr. Ferdinand?",
+      "gold": "reaction",
+      "predicted": "analysis"
+    },
+    {
+      "text": "Has anyone found Steel Ball Run EP 2?\n\nI've been looking to watch it for a long time and can't find it on any website, please help me.",
+      "gold": "hot_take",
+      "predicted": "analysis"
+    },
+    {
+      "text": "Made the steel ball run outro with Johnny cash\u2019s Gods Gonna Cut You Down.\n\nIm not that great at editing so the video and audio have weird spots in it.",
+      "gold": "hot_take",
+      "predicted": "analysis"
+    },
+    {
+      "text": "How do you guys imagine Mike O. sounding like?\n\nMy headcanon is saitama japanese voice mixed with lil nas x.",
+      "gold": "hot_take",
+      "predicted": "hot_take"
+    },
+    {
+      "text": "If the Devil's Palm episode already has a 9.3/10 rating, what rating do you think will the episode with the Oyecomova fight have?",
+      "gold": "hot_take",
+      "predicted": "analysis"
+    },
+    {
+      "text": "should i read sbr or wait and watch it? pros and cons?\n\ni really what to watch steelball run and come back to reaf it after, at the exact same time i want to read it all right now. what do i do? i read all of invincible before season 4, and it really threw me off as i new what was coming and the animation did not live up to the comics so i didnt enjoy it as much, were as reading it affter already watching season 1, 2 and 3 made me like it alot as i got to see how the show i loved was intended to be. i dont expect this to match with steelball run but im scared it will. i want to read it as i am SUPER impatient and am struggling to wait for tje remaining 40 smth days. and with weekly episodes (I think) i cant wait 45+ weeks. but I want to wait incase the same thing happens sbr as invincible. sorry for long body text, but im really on the line and need second opinions. I have no other freinds who have watched up to sbr let alone read it.",
+      "gold": "analysis",
+      "predicted": "analysis"
+    },
+    {
+      "text": "why gyro has 2 cloakes?\n\ni want to make a fan art and want to understand why in some materials gyro cloak is green with 2 stripes and sometimes is beige with 3 stripes. would that be anime/manga version, or is something related to the story? (i just watch the anime) https://preview.redd.it/ad38js3ycfth1.png?width=280&format=png&auto=webp&s=6434b924d6d3900a52c3f5a3faf640c915cd626a https://preview.redd.it/5yh52tezcfth1.png?width=447&format=png&auto=webp&s=53f1f080fd6df7d782add6b844f48afba13f2097",
+      "gold": "analysis",
+      "predicted": "analysis"
+    },
+    {
+      "text": "Break Your Heart, Break My Heart but they only speak in emojis\n\nFunny Valentine - Gyro, D4C F.V. - My goal, the corpse, lucy, life F.V. - Gyro, multiple gyros F.V. - Infinite rotation, STOP ... Infinite rotation, opposite direction, opposite direction ... Tusk Act 4, STOP, plus and minus, Gyro Johnny - Gyro F.V. - Promise Johnny - Gyro F.V. - Promise Johnny - Me and Gyro F.V. - Promise F.V. - You and gyro, the race Johnny - Gyro, different Gyro F.V. - Gyro, Gyro, Gyro ... The corpse F.V. - Lucy becoming the corpse, flowers, roses, jewels ... flesh-eating fish, people dying F.V. - Differences in society, plus and minus, black and white, the corpse, the earth F.V. - STOP, HAPPY. President of the United State, Guarantee OK .... Steel Ball Run, stands (Tusk Act 1), war, Steel Ball Run, the corpse Johnny - Proof OK, assassins (11 Men & Magenta) Johnny - Gyro, Wekapipo, Sandman, Mountain Tim *Valentine throws Cream Starter to Johnny* F.V. - Hot Pants, Hot Pants and Cream Starter F.V. - Lucy, Goddess ... Your severed hand F.V. - Your severed hand, Steven Steel ... Goddess *Valentine pulls out his handkerchief* F.V. - My birthday, my dad ... my dad ... opposite rotation, opposite rotation *\\*Johnny throws Valentine the gun he used to kill Gyro\\** Johnny - Your gun ... your gun .... opposite rotation, opposite rotation ... Gyro, the corpse",
+      "gold": "hot_take",
+      "predicted": "analysis"
+    },
+    {
+      "text": "Infinite Rotation? (SBR anime)",
+      "gold": "reaction",
+      "predicted": "analysis"
+    },
+    {
+      "text": "Am I the only one who thought that the designs in Ep 2 were not as great as in Episode 1,3 and 4. If im honest they\u2019re faces reminded me much more of an typical anime then JoJos. The good thing is that their faces arent that blocky, but not in the way ep 2 done it.",
+      "gold": "analysis",
+      "predicted": "analysis"
+    },
+    {
+      "text": "Is the doomposting right?\n\nI\u2019ll be honest: I\u2019ve noticed people online complaining about the many cut scenes\u2014specifically those involving Pocoloco, Sandman, and the Lucy/Steven/Mountain Tim trio. They\u2019re saying David Pro shouldn't touch JoJolion and that the JoJo anime should be cancelled, but I honestly think they\u2019re overreacting. Regarding Sandman, we knew the scene would be moved even before the first episode aired; people claim his character now lacks motivation or appeal, yet he remains a favorite among those who haven't read the manga. As for Pocoloco, many complain that the racist undertones in the conversation with his father were removed\u2014claiming the anime lacks the courage to tackle such topics\u2014and point to similar issues regarding Lucy\u2019s age (which wasn't mentioned) and a line of Tim\u2019s that was altered. I don't think it's fair to say David Pro is incapable of handling these themes, especially considering they adapted the racism directed at Smokey and the entire Orangutan arc. People who keep comparing it to the manga need to remember that this is an adaptation; cutting or rearranging scenes is normal, and with over 40 episodes still to go, judging it now makes no sense. That\u2019s just my opinion, though\u2014feel free to disagree.",
+      "gold": "analysis",
+      "predicted": "hot_take"
+    },
+    {
+      "text": "Johnny Joestar Recolor, my take\n\nI\u2019m a really big fan of Johnny\u2019s anime color palette but I made a recolor to show what I would do differently. Hope you like it",
+      "gold": "hot_take",
+      "predicted": "analysis"
+    },
+    {
+      "text": "Best mangaka OAT",
+      "gold": "reaction",
+      "predicted": "analysis"
+    },
+    {
+      "text": "Lasso blues? LASSO BLUES?",
+      "gold": "reaction",
+      "predicted": "hot_take"
+    },
+    {
+      "text": "Does anyone else feel the same? (spoilers)\n\nI have read up to the english volume 7 of SBR so after 4DC gets revealed as well as the head of jesus being in the stomach of Lucy Steele. I find it kind of annoying that certain parts of the manga are being adapted for no reason, take the scene where sandman takes the food in good manner at the end of the first stage. In the manga he eats and drinks a whole lot and it\u2019s just annoying having certain funny parts be removed.",
+      "gold": "hot_take",
+      "predicted": "hot_take"
+    },
+    {
+      "text": "I don't care about the rating\n\nI really hate posts complaining about ratings I literally don\u2019t care what the rating is, what other people\u2019s opinions are, or what other series are rated higher than jojo part 7 none of that defines what I love about part 7. all that matters to me is that I enjoyed watching ep 2 If you love part 7 you should stop giving a shit about what other people rate it or what they think about it",
+      "gold": "analysis",
+      "predicted": "hot_take"
+    }
+  ]
+}

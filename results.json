@@ -1,49 +1,49 @@
 {
   "seed": 42,
   "n_test": 30,
-  "accuracy": 0.6666666666666666,
-  "f1_macro": 0.664327485380117,
+  "accuracy": 0.7666666666666667,
+  "f1_macro": 0.770902300314065,
   "per_label": {
     "analysis": {
-      "precision": 0.5833333333333334,
-      "recall": 0.7777777777777778,
-      "f1": 0.6666666666666666,
+      "precision": 0.6666666666666666,
+      "recall": 0.8888888888888888,
+      "f1": 0.7619047619047619,
       "support": 9
     },
     "hot_take": {
-      "precision": 0.625,
-      "recall": 0.45454545454545453,
-      "f1": 0.5263157894736842,
+      "precision": 0.7272727272727273,
+      "recall": 0.7272727272727273,
+      "f1": 0.7272727272727273,
       "support": 11
     },
     "reaction": {
-      "precision": 0.8,
-      "recall": 0.8,
-      "f1": 0.8,
+      "precision": 1.0,
+      "recall": 0.7,
+      "f1": 0.8235294117647058,
       "support": 10
     }
   },
   "confusion": {
     "analysis": {
-      "analysis": 7,
-      "hot_take": 2,
+      "analysis": 8,
+      "hot_take": 1,
       "reaction": 0
     },
     "hot_take": {
-      "analysis": 4,
-      "hot_take": 5,
-      "reaction": 2
+      "analysis": 3,
+      "hot_take": 8,
+      "reaction": 0
     },
     "reaction": {
       "analysis": 1,
-      "hot_take": 1,
-      "reaction": 8
+      "hot_take": 2,
+      "reaction": 7
     }
   },
   "confidence": {
-    "mean_when_right": 0.3971948027610779,
-    "mean_when_wrong": 0.3784283399581909,
-    "accuracy_most_confident_third": 0.8,
+    "mean_when_right": 0.39974573254585266,
+    "mean_when_wrong": 0.3751046061515808,
+    "accuracy_most_confident_third": 0.9,
     "accuracy_least_confident_third": 0.5,
     "n_per_third": 10
   },
